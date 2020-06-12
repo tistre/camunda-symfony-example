@@ -1,0 +1,33 @@
+version: '3.0'
+
+services:
+    db:
+        image: postgres:latest
+        volumes:
+            - ./var/postgres-data:/var/lib/postgresql/data
+        restart: always
+        environment:
+            POSTGRES_USER: camunda
+            POSTGRES_PASSWORD: secret
+            POSTGRES_DB: camunda
+    camunda:
+        image: camunda/camunda-bpm-platform:latest
+        depends_on:
+            - db
+        hostname: camunda
+        ports:
+            - "8080:8080"
+        restart: always
+        environment:
+            DB_DRIVER: org.postgresql.Driver
+            DB_URL: jdbc:postgresql://db:5432/camunda
+            DB_USERNAME: camunda
+            DB_PASSWORD: secret
+            WAIT_FOR: db:5432
+    fizzbuzzworker:
+        image: php:7.4-cli
+        command: /opt/app/bin/console app:fizzbuzz-worker
+        depends_on:
+            - camunda
+        volumes:
+            - ./app:/opt/app
