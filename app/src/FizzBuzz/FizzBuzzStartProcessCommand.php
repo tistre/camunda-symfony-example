@@ -60,10 +60,10 @@ class FizzBuzzStartProcessCommand extends Command
 
         for ($number = 1; $number <= intval($input->getArgument('numbers')); $number++) {
             $variables = new CamundaVariableBag();
-            $variables[FizzBuzzExternalTaskHandler::CAMUNDA_VAR_NUMBER] = new CamundaIntegerVariable($number);
+            $variables[FizzBuzzProcessVariables::CAMUNDA_VAR_NUMBER] = new CamundaIntegerVariable($number);
 
             $request = (new CamundaProcessDefinitionStartInstanceRequest($this->camundaClient))
-                ->setKey(FizzBuzzExternalTaskHandler::CAMUNDA_PROCESS_DEFINITION_KEY)
+                ->setKey(FizzBuzzProcessVariables::CAMUNDA_PROCESS_DEFINITION_KEY)
                 ->setBusinessKey('number_' . $number)
                 ->setVariables($variables);
 
@@ -71,7 +71,7 @@ class FizzBuzzStartProcessCommand extends Command
 
             $this->logger->info(sprintf(
                 'Started <%s> process for number <%d>',
-                FizzBuzzExternalTaskHandler::CAMUNDA_PROCESS_DEFINITION_KEY,
+                FizzBuzzProcessVariables::CAMUNDA_PROCESS_DEFINITION_KEY,
                 $number
             ));
         }

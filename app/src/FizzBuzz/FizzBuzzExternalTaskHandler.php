@@ -14,15 +14,6 @@ use StrehleDe\CamundaClient\Variable\CamundaVariableBag;
 
 class FizzBuzzExternalTaskHandler extends CamundaExternalTaskHandler
 {
-    const CAMUNDA_PROCESS_DEFINITION_KEY = 'FizzBuzz';
-    const CAMUNDA_VAR_NUMBER = 'number';
-    const CAMUNDA_VAR_DIVISIBLE_BY_3 = 'divisibleBy3';
-    const CAMUNDA_VAR_DIVISIBLE_BY_5 = 'divisibleBy5';
-    const CAMUNDA_VAR_IS_FIZZ = 'isFizz';
-    const CAMUNDA_VAR_IS_BUZZ = 'isBuzz';
-    const CAMUNDA_VAR_OUTPUT = 'output';
-
-
     /**
      * @inheritDoc
      */
@@ -55,13 +46,13 @@ class FizzBuzzExternalTaskHandler extends CamundaExternalTaskHandler
     ): void {
         CamundaUtils::assertRequiredVariables(
             $externalTask->getVariables(),
-            [self::CAMUNDA_VAR_NUMBER]
+            [FizzBuzzProcessVariables::CAMUNDA_VAR_NUMBER]
         );
 
-        $number = $externalTask->getVariables()->getValue(self::CAMUNDA_VAR_NUMBER);
+        $number = $externalTask->getVariables()->getValue(FizzBuzzProcessVariables::CAMUNDA_VAR_NUMBER);
 
-        $updateVariables[self::CAMUNDA_VAR_DIVISIBLE_BY_3] = new CamundaBooleanVariable($number % 3 === 0);
-        $updateVariables[self::CAMUNDA_VAR_DIVISIBLE_BY_5] = new CamundaBooleanVariable($number % 5 === 0);
+        $updateVariables[FizzBuzzProcessVariables::CAMUNDA_VAR_DIVISIBLE_BY_3] = new CamundaBooleanVariable($number % 3 === 0);
+        $updateVariables[FizzBuzzProcessVariables::CAMUNDA_VAR_DIVISIBLE_BY_5] = new CamundaBooleanVariable($number % 5 === 0);
     }
 
 
@@ -75,12 +66,12 @@ class FizzBuzzExternalTaskHandler extends CamundaExternalTaskHandler
     ): void {
         CamundaUtils::assertRequiredVariables(
             $externalTask->getVariables(),
-            [self::CAMUNDA_VAR_DIVISIBLE_BY_3]
+            [FizzBuzzProcessVariables::CAMUNDA_VAR_DIVISIBLE_BY_3]
         );
 
-        $divisible = $externalTask->getVariables()->getValue(self::CAMUNDA_VAR_DIVISIBLE_BY_3);
+        $divisible = $externalTask->getVariables()->getValue(FizzBuzzProcessVariables::CAMUNDA_VAR_DIVISIBLE_BY_3);
 
-        $updateVariables[self::CAMUNDA_VAR_IS_FIZZ] = new CamundaBooleanVariable($divisible);
+        $updateVariables[FizzBuzzProcessVariables::CAMUNDA_VAR_IS_FIZZ] = new CamundaBooleanVariable($divisible);
     }
 
 
@@ -94,12 +85,12 @@ class FizzBuzzExternalTaskHandler extends CamundaExternalTaskHandler
     ): void {
         CamundaUtils::assertRequiredVariables(
             $externalTask->getVariables(),
-            [self::CAMUNDA_VAR_DIVISIBLE_BY_5]
+            [FizzBuzzProcessVariables::CAMUNDA_VAR_DIVISIBLE_BY_5]
         );
 
-        $divisible = $externalTask->getVariables()->getValue(self::CAMUNDA_VAR_DIVISIBLE_BY_5);
+        $divisible = $externalTask->getVariables()->getValue(FizzBuzzProcessVariables::CAMUNDA_VAR_DIVISIBLE_BY_5);
 
-        $updateVariables[self::CAMUNDA_VAR_IS_BUZZ] = new CamundaBooleanVariable($divisible);
+        $updateVariables[FizzBuzzProcessVariables::CAMUNDA_VAR_IS_BUZZ] = new CamundaBooleanVariable($divisible);
     }
 
 
@@ -113,14 +104,14 @@ class FizzBuzzExternalTaskHandler extends CamundaExternalTaskHandler
     ): void {
         CamundaUtils::assertRequiredVariables(
             $externalTask->getVariables(),
-            [self::CAMUNDA_VAR_NUMBER]
+            [FizzBuzzProcessVariables::CAMUNDA_VAR_NUMBER]
         );
 
-        $isFizz = $externalTask->getVariables()->getValue(self::CAMUNDA_VAR_IS_FIZZ) ?? false;
-        $isBuzz = $externalTask->getVariables()->getValue(self::CAMUNDA_VAR_IS_BUZZ) ?? false;
+        $isFizz = $externalTask->getVariables()->getValue(FizzBuzzProcessVariables::CAMUNDA_VAR_IS_FIZZ) ?? false;
+        $isBuzz = $externalTask->getVariables()->getValue(FizzBuzzProcessVariables::CAMUNDA_VAR_IS_BUZZ) ?? false;
 
         if (!($isFizz || $isBuzz)) {
-            $output = $externalTask->getVariables()->getValue(self::CAMUNDA_VAR_NUMBER);
+            $output = $externalTask->getVariables()->getValue(FizzBuzzProcessVariables::CAMUNDA_VAR_NUMBER);
         } else {
             $output = sprintf(
                 '%s%s',
@@ -129,6 +120,6 @@ class FizzBuzzExternalTaskHandler extends CamundaExternalTaskHandler
             );
         }
 
-        $updateVariables[self::CAMUNDA_VAR_OUTPUT] = new CamundaStringVariable($output);
+        $updateVariables[FizzBuzzProcessVariables::CAMUNDA_VAR_OUTPUT] = new CamundaStringVariable($output);
     }
 }
