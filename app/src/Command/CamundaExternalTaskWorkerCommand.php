@@ -71,7 +71,7 @@ abstract class CamundaExternalTaskWorkerCommand extends Command
             ->setDescription('Work on external Camunda tasks')
             ->setHelp('In an endless loop, fetch external tasks from Camunda and handle them.')
             ->addOption('num', null, InputOption::VALUE_REQUIRED, 'Maximum number of external tasks to handle', 0)
-            ->addOption('topic', null, InputOption::VALUE_IS_ARRAY|InputOption::VALUE_REQUIRED, 'Handle only tasks with this topic', '');
+            ->addOption('topic', null, InputOption::VALUE_IS_ARRAY|InputOption::VALUE_REQUIRED, 'Handle only tasks with this topic');
     }
 
 
