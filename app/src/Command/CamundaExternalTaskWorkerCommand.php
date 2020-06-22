@@ -19,6 +19,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 abstract class CamundaExternalTaskWorkerCommand extends Command
 {
     /**
+     * How many external tasks to fetch and lock
+     */
+    const FETCH_MAX_TASKS = 1;
+
+    /**
      * How many microseconds to sleep between "fetch and lock" iterations
      */
     const SLEEP_MICROSECONDS_AFTER_FETCH = 100000;
@@ -65,7 +70,8 @@ abstract class CamundaExternalTaskWorkerCommand extends Command
         $this
             ->setDescription('Work on external Camunda tasks')
             ->setHelp('In an endless loop, fetch external tasks from Camunda and handle them.')
-            ->addOption('num', null, InputOption::VALUE_REQUIRED, 'Maximum number of external tasks to handle', 0);
+            ->addOption('num', null, InputOption::VALUE_REQUIRED, 'Maximum number of external tasks to handle', 0)
+            ->addOption('topic', null, InputOption::VALUE_IS_ARRAY|InputOption::VALUE_REQUIRED, 'Handle only tasks with this topic', '');
     }
 
 
@@ -85,17 +91,24 @@ abstract class CamundaExternalTaskWorkerCommand extends Command
 
         $worker = new CamundaExternalTaskWorker($this->camundaClient, $this->logger, $handler, $workerId);
 
+        $filterTopics = $input->getOption('topic');
+        $topicNames = $handler->getHandledTopics()->getTopicNames();
+
+        if (count($filterTopics) > 0) {
+            $topicNames = $filterTopics;
+        }
+
         $this->logger->info(sprintf(
             '%s: Starting %s with <%s> handling external tasks with the topics <%s> (worker ID <%s>)',
             get_class($this),
             ($this->processMaxNum === 0 ? 'endless loop' : 'to handle ' . $this->processMaxNum . ' task(s)'),
             get_class($handler),
-            implode(', ', $handler->getHandledTopics()->getTopicNames()),
+            implode(', ', $topicNames),
             $workerId
         ));
 
         while (true) {
-            foreach ($worker->fetchExternalTasks() as $externalTask) {
+            foreach ($worker->fetchExternalTasks(self::FETCH_MAX_TASKS, $filterTopics) as $externalTask) {
                 $worker->handleExternalTask($externalTask);
                 $this->numProcessed++;
 
