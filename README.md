@@ -1,7 +1,7 @@
 # camunda-symfony-example
 
 An example of using the [camunda_php_client](https://github.com/tistre/camunda_php_client/) library from within a minimal 
-(no Web UI, just command line) Symfony 5 application.
+(no Web UI, just command line) Symfony 6 application.
 
 ## Installation
 
@@ -36,9 +36,11 @@ During the first start, Camunda will take 1-2 minutes to initialize.
 
 Then you should be able to access the Camunda UI on http://localhost:8080/camunda/ (log in as demo/demo). 
 
+Deploy bpmn/FizzBuzz.bpmn to http://localhost:8080/engine-rest via the Camunda Modeler.
+
 ## Using
 
-Create 20 example process instances:
+Create 20 example [FizzBuzz](https://en.wikipedia.org/wiki/Fizz_buzz) process instances:
 
 ```
 $ docker exec -it camunda-symfony-example_fizzbuzzworker_1 \
