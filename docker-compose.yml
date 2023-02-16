@@ -7,26 +7,26 @@ services:
         volumes:
             - ./app:/opt/app
             - ./docker/php/zz-log.conf:/usr/local/etc/php/conf.d/zz-log.conf
-#    db:
-#        image: postgres:latest
-#        volumes:
-#            - ./var/postgres-data:/var/lib/postgresql/data
-#        restart: always
-#        environment:
-#            POSTGRES_USER: camunda
-#            POSTGRES_PASSWORD: secret
-#            POSTGRES_DB: camunda
-#    camunda:
-#        image: camunda/camunda-bpm-platform:latest
-#        depends_on:
-#            - db
-#        hostname: camunda
-#        ports:
-#            - "8080:8080"
-#        restart: always
-#        environment:
-#            DB_DRIVER: org.postgresql.Driver
-#            DB_URL: jdbc:postgresql://db:5432/camunda
-#            DB_USERNAME: camunda
-#            DB_PASSWORD: secret
-#            WAIT_FOR: db:5432
+    db:
+        image: postgres:12
+        volumes:
+            - ./var/postgres-data:/var/lib/postgresql/data
+        restart: always
+        environment:
+            POSTGRES_USER: camunda
+            POSTGRES_PASSWORD: secret
+            POSTGRES_DB: camunda
+    camunda:
+        image: camunda/camunda-bpm-platform:7.17.0
+        depends_on:
+            - db
+        hostname: camunda
+        ports:
+            - "8080:8080"
+        restart: always
+        environment:
+            DB_DRIVER: org.postgresql.Driver
+            DB_URL: jdbc:postgresql://db:5432/camunda
+            DB_USERNAME: camunda
+            DB_PASSWORD: secret
+            WAIT_FOR: db:5432
