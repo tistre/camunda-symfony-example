@@ -7,14 +7,15 @@
         "php": ">=8.1",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "strehle-de/camunda-client": "^0.5.2",
         "symfony/console": "6.2.*",
         "symfony/dotenv": "6.2.*",
+        "symfony/event-dispatcher": "6.2.*",
         "symfony/flex": "^2",
         "symfony/framework-bundle": "6.2.*",
+        "symfony/messenger": "6.2.*",
         "symfony/runtime": "6.2.*",
         "symfony/yaml": "6.2.*"
-    },
-    "require-dev": {
     },
     "config": {
         "allow-plugins": {

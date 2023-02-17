@@ -30,3 +30,14 @@ services:
             DB_USERNAME: camunda
             DB_PASSWORD: secret
             WAIT_FOR: db:5432
+    worker:
+        command: /opt/app/bin/console -vv messenger:consume camunda
+        deploy:
+            replicas: 2
+        build:
+            context: ./docker/php
+        depends_on:
+            - camunda
+        volumes:
+            - ./app:/opt/app
+            - ./docker/php/zz-log.conf:/usr/local/etc/php/conf.d/zz-log.conf

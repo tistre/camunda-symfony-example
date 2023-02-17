@@ -20,7 +20,7 @@
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="Flow_0obrogv" sourceRef="Activity_07zd8xp" targetRef="Gateway_0hje836" />
     <bpmn:sequenceFlow id="Flow_1hh1ihe" name="Neither 3 nor 5" sourceRef="Gateway_0hje836" targetRef="Activity_0w7cjkv">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${not (divisibleBy3 or divisibleBy5)}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${not (isDivisibleBy3 or isDivisibleBy5)}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_1qhvaxy" sourceRef="Activity_0w7cjkv" targetRef="Activity_0i7coc5" />
     <bpmn:endEvent id="Event_0sbdiec">
@@ -32,7 +32,7 @@
       <bpmn:outgoing>Flow_1hhqexf</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:sequenceFlow id="Flow_15ql9s8" sourceRef="Gateway_0hje836" targetRef="Gateway_1u3dblm">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${divisibleBy3 or divisibleBy5}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isDivisibleBy3 or isDivisibleBy5}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:inclusiveGateway id="Gateway_1u3dblm">
       <bpmn:incoming>Flow_15ql9s8</bpmn:incoming>
@@ -40,10 +40,10 @@
       <bpmn:outgoing>Flow_1kyn2qo</bpmn:outgoing>
     </bpmn:inclusiveGateway>
     <bpmn:sequenceFlow id="Flow_1s3qo9u" name="3" sourceRef="Gateway_1u3dblm" targetRef="Activity_1sp1w89">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${divisibleBy3}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isDivisibleBy3}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_1kyn2qo" name="5" sourceRef="Gateway_1u3dblm" targetRef="Activity_14ty5kw">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${divisibleBy5}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isDivisibleBy5}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_02h1kdz" sourceRef="Activity_1sp1w89" targetRef="Gateway_1vz1klu" />
     <bpmn:inclusiveGateway id="Gateway_1vz1klu">
