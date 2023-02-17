@@ -1,8 +1,14 @@
 version: '3.0'
 
 services:
+    php:
+        build:
+            context: ./docker/php
+        volumes:
+            - ./app:/opt/app
+            - ./docker/php/zz-log.conf:/usr/local/etc/php/conf.d/zz-log.conf
     db:
-        image: postgres:latest
+        image: postgres:12
         volumes:
             - ./var/postgres-data:/var/lib/postgresql/data
         restart: always
@@ -11,7 +17,7 @@ services:
             POSTGRES_PASSWORD: secret
             POSTGRES_DB: camunda
     camunda:
-        image: camunda/camunda-bpm-platform:latest
+        image: camunda/camunda-bpm-platform:7.17.0
         depends_on:
             - db
         hostname: camunda
@@ -24,10 +30,14 @@ services:
             DB_USERNAME: camunda
             DB_PASSWORD: secret
             WAIT_FOR: db:5432
-    fizzbuzzworker:
-        image: php:7.4-cli
-        command: /opt/app/bin/console app:fizzbuzz-worker
+    worker:
+        command: /opt/app/bin/console -vv messenger:consume camunda
+        deploy:
+            replicas: 2
+        build:
+            context: ./docker/php
         depends_on:
             - camunda
         volumes:
             - ./app:/opt/app
+            - ./docker/php/zz-log.conf:/usr/local/etc/php/conf.d/zz-log.conf
