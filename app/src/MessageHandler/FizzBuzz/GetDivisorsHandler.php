@@ -15,9 +15,12 @@ class GetDivisorsHandler
      */
     public function __invoke(GetDivisorsMessage $message): void
     {
-        $message->assertRequiredProperties([FizzBuzzMessage::VAR_NUMBER]);
+        $message->assertRequiredProperties([FizzBuzzMessage::VAR_CURRENT_NUMBER]);
 
-        $message->setIsDivisibleBy3($message->getNumber() % 3 === 0);
-        $message->setIsDivisibleBy5($message->getNumber() % 5 === 0);
+        $message->setIsDivisibleBy3($message->getCurrentNumber() % 3 === 0);
+        $message->setIsDivisibleBy5($message->getCurrentNumber() % 5 === 0);
+
+        $message->setIsFizz(false);
+        $message->setIsBuzz(false);
     }
 }

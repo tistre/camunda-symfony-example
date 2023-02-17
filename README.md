@@ -25,17 +25,23 @@ messenger.bus.default
  The following messages can be dispatched:
 
  ------------------------------------------------------------------ 
+  App\Message\FizzBuzz\AddToOutputMessage                           
+      handled by App\MessageHandler\FizzBuzz\AddToOutputHandler     
+                                                                    
   App\Message\FizzBuzz\BuzzMessage                                  
       handled by App\MessageHandler\FizzBuzz\BuzzHandler            
-                                                                    
-  App\Message\FizzBuzz\CombineResultsMessage                        
-      handled by App\MessageHandler\FizzBuzz\CombineResultsHandler  
                                                                     
   App\Message\FizzBuzz\FizzMessage                                  
       handled by App\MessageHandler\FizzBuzz\FizzHandler            
                                                                     
   App\Message\FizzBuzz\GetDivisorsMessage                           
       handled by App\MessageHandler\FizzBuzz\GetDivisorsHandler     
+                                                                    
+  App\Message\FizzBuzz\IncreaseNumberMessage                        
+      handled by App\MessageHandler\FizzBuzz\IncreaseNumberHandler  
+                                                                    
+  App\Message\FizzBuzz\InitMessage                                  
+      handled by App\MessageHandler\FizzBuzz\InitHandler            
                                                                     
  ------------------------------------------------------------------ 
 ```

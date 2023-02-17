@@ -4,6 +4,7 @@ services:
     php:
         build:
             context: ./docker/php
+        image: camunda-symfony-example-php
         volumes:
             - ./app:/opt/app
             - ./docker/php/zz-log.conf:/usr/local/etc/php/conf.d/zz-log.conf
@@ -34,8 +35,7 @@ services:
         command: /opt/app/bin/console -vv messenger:consume camunda
         deploy:
             replicas: 2
-        build:
-            context: ./docker/php
+        image: camunda-symfony-example-php
         depends_on:
             - camunda
         volumes:

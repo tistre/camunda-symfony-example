@@ -35,7 +35,7 @@ class StartFizzBuzzProcessCommand extends Command
             ->setDescription('Start FizzBuzz process')
             ->setHelp('Starts one or more Camunda process instances of the FizzBuzz process definition')
             ->addOption('numInstances', null, InputOption::VALUE_REQUIRED, 'Number of instances', 1)
-            ->addArgument('number', InputArgument::REQUIRED, 'Number, example: 20');
+            ->addArgument('countToNumber', InputArgument::REQUIRED, 'Number to count to, example: 20');
     }
 
 
@@ -48,8 +48,8 @@ class StartFizzBuzzProcessCommand extends Command
 
         for ($i = 1; $i <= $numInstances; $i++) {
             $message = (new FizzBuzzStartMessage())
-                ->setNumber(intval($input->getArgument('number')))
-                ->setBusinessKey($input->getArgument('number'));
+                ->setCountToNumber(intval($input->getArgument('countToNumber')))
+                ->setBusinessKey(sprintf('%s (%d)', $input->getArgument('countToNumber'), $i));
 
             $this->messageBus->dispatch($message);
 
@@ -57,7 +57,7 @@ class StartFizzBuzzProcessCommand extends Command
                 '%02d Started <%s> process (number: %d)',
                 $i,
                 $message->getProcessDefinitionKey(),
-                $message->getNumber()
+                $message->getCountToNumber()
             ));
         }
 

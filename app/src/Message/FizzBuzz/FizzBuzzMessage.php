@@ -16,29 +16,54 @@ class FizzBuzzMessage extends CamundaProcessMessage
 {
     public const PROCESS_DEFINITION_KEY = 'FizzBuzz';
 
+    public const VAR_COUNT_TO_NUMBER = 'countToNumber';
+    public const VAR_CURRENT_NUMBER = 'currentNumber';
+    public const VAR_DO_REVIEW = 'doReview';
     public const VAR_IS_BUZZ = 'isBuzz';
     public const VAR_IS_DIVISIBLE_BY_3 = 'isDivisibleBy3';
     public const VAR_IS_DIVISIBLE_BY_5 = 'isDivisibleBy5';
     public const VAR_IS_FIZZ = 'isFizz';
-    public const VAR_NUMBER = 'number';
     public const VAR_OUTPUT = 'output';
 
+    protected ?int $countToNumber = null;
+    protected ?int $currentNumber = null;
+    protected ?bool $doReview = null;
     protected ?bool $isBuzz = null;
     protected ?bool $isDivisibleBy3 = null;
     protected ?bool $isDivisibleBy5 = null;
     protected ?bool $isFizz = null;
-    protected ?int $number = null;
     protected ?string $output = null;
 
     // TODO use PHP 8 attributes instead
     protected array $propertyToVariable = [
+        self::VAR_COUNT_TO_NUMBER => CamundaIntegerVariable::class,
+        self::VAR_CURRENT_NUMBER => CamundaIntegerVariable::class,
+        self::VAR_DO_REVIEW => CamundaBooleanVariable::class,
         self::VAR_IS_BUZZ => CamundaBooleanVariable::class,
         self::VAR_IS_DIVISIBLE_BY_3 => CamundaBooleanVariable::class,
         self::VAR_IS_DIVISIBLE_BY_5 => CamundaBooleanVariable::class,
         self::VAR_IS_FIZZ => CamundaBooleanVariable::class,
-        self::VAR_NUMBER => CamundaIntegerVariable::class,
         self::VAR_OUTPUT => CamundaStringVariable::class
     ];
+
+    /**
+     * @return bool|null
+     */
+    public function getDoReview(): ?bool
+    {
+        return $this->doReview;
+    }
+
+    /**
+     * @param bool|null $doReview
+     * @return self
+     */
+    public function setDoReview(?bool $doReview): self
+    {
+        $this->doReview = $doReview;
+        $this->isDirty[self::VAR_DO_REVIEW] = true;
+        return $this;
+    }
 
     /**
      * @return bool|null
@@ -116,24 +141,43 @@ class FizzBuzzMessage extends CamundaProcessMessage
         return $this;
     }
 
-
     /**
      * @return int|null
      */
-    public function getNumber(): ?int
+    public function getCountToNumber(): ?int
     {
-        return $this->number;
+        return $this->countToNumber;
+    }
+
+    /**
+     * @param int|null $countToNumber
+     * @return self
+     */
+    public function setCountToNumber(?int $countToNumber): self
+    {
+        $this->countToNumber = $countToNumber;
+        $this->isDirty[self::VAR_COUNT_TO_NUMBER] = true;
+        return $this;
     }
 
 
     /**
-     * @param int $number
+     * @return int|null
+     */
+    public function getCurrentNumber(): ?int
+    {
+        return $this->currentNumber;
+    }
+
+
+    /**
+     * @param int $currentNumber
      * @return self
      */
-    public function setNumber(int $number): self
+    public function setCurrentNumber(int $currentNumber): self
     {
-        $this->number = $number;
-        $this->isDirty[self::VAR_NUMBER] = true;
+        $this->currentNumber = $currentNumber;
+        $this->isDirty[self::VAR_CURRENT_NUMBER] = true;
         return $this;
     }
 

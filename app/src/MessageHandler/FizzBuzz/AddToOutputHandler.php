@@ -2,28 +2,34 @@
 
 namespace App\MessageHandler\FizzBuzz;
 
-use App\Message\FizzBuzz\CombineResultsMessage;
+use App\Message\FizzBuzz\AddToOutputMessage;
 use App\Message\FizzBuzz\FizzBuzzMessage;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 
 #[AsMessageHandler]
-class CombineResultsHandler
+class AddToOutputHandler
 {
     /**
-     * @param CombineResultsMessage $message
+     * @param AddToOutputMessage $message
      */
-    public function __invoke(CombineResultsMessage $message): void
+    public function __invoke(AddToOutputMessage $message): void
     {
-        $message->assertRequiredProperties([FizzBuzzMessage::VAR_NUMBER]);
+        $message->assertRequiredProperties([FizzBuzzMessage::VAR_CURRENT_NUMBER]);
 
         $isFizz = $message->getIsFizz() ?? false;
         $isBuzz = $message->getIsBuzz() ?? false;
 
+        $output = $message->getOutput() ?? '';
+
+        if (!empty($output)) {
+            $output .= ', ';
+        }
+
         if (!($isFizz || $isBuzz)) {
-            $output = $message->getNumber();
+            $output .= $message->getCurrentNumber();
         } else {
-            $output = sprintf(
+            $output .= sprintf(
                 '%s%s',
                 $isFizz ? 'Fizz' : '',
                 $isBuzz ? 'Buzz' : ''
