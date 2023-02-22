@@ -46,19 +46,37 @@ messenger.bus.default
  ------------------------------------------------------------------ 
 ```
 
+Start Camunda (as described below) and deploy bpmn/FizzBuzz.bpmn to http://localhost:8080/engine-rest via the Camunda Modeler.
+
 ## Starting 
 
-Start Camunda and the worker process via Docker:
+Start Camunda first:
 
 ```
-$ docker compose up -d
+$ docker compose up -d camunda
 ```
 
-During the first start, Camunda will take 1-2 minutes to initialize. 
+During the first start, Camunda will take 1-2 minutes to initialize.
 
-Then you should be able to access the Camunda UI on http://localhost:8080/camunda/ (log in as demo/demo). 
+But even subsequent starts take relatively long – check the logs:
 
-Deploy bpmn/FizzBuzz.bpmn to http://localhost:8080/engine-rest via the Camunda Modeler.
+```
+$ docker compose logs -f
+```
+
+Watch for the log line that reports successful Camunda server startup, it looks like this::
+
+```
+INFO [main] org.apache.catalina.startup.Catalina.start Server startup in [85439] milliseconds
+```
+
+Now you should be able to access the Camunda UI on http://localhost:8080/camunda/ (log in as demo/demo). 
+
+And you can start the worker processes:
+
+```
+$ docker compose start worker
+```
 
 ## Using
 
