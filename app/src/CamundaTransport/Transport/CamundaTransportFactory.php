@@ -37,7 +37,7 @@ class CamundaTransportFactory implements TransportFactoryInterface
 
         $config = new CamundaConfig($url);
 
-        return new CamundaTransport(new CamundaClient($config, $this->logger), $this->topicList);
+        return new CamundaTransport(new CamundaClient($config, $this->logger), $this->topicList, $this->logger);
     }
 
 

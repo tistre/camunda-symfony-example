@@ -3,6 +3,7 @@
 namespace App\CamundaTransport\Transport;
 
 use App\CamundaTransport\CamundaTopicList;
+use Psr\Log\LoggerInterface;
 use StrehleDe\CamundaClient\CamundaClient;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Transport\TransportInterface;
@@ -25,7 +26,8 @@ class CamundaTransport implements TransportInterface
      */
     public function __construct(
         protected CamundaClient $camundaClient,
-        protected CamundaTopicList $topicList
+        protected CamundaTopicList $topicList,
+        protected LoggerInterface $logger
     )
     {
     }
@@ -73,7 +75,7 @@ class CamundaTransport implements TransportInterface
     public function getReceiver(): CamundaReceiver
     {
         if (!isset($this->receiver)) {
-            $this->receiver = new CamundaReceiver($this->camundaClient, $this->topicList);
+            $this->receiver = new CamundaReceiver($this->camundaClient, $this->topicList, $this->logger);
         }
 
         return $this->receiver;

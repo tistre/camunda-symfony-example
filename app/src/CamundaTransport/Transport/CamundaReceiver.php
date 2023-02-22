@@ -6,6 +6,7 @@ use App\CamundaTransport\CamundaTopicList;
 use App\CamundaTransport\Message\CamundaExternalTaskMessage;
 use App\CamundaTransport\Message\CamundaProcessMessage;
 use App\CamundaTransport\Stamp\CamundaWorkerIdStamp;
+use Psr\Log\LoggerInterface;
 use StrehleDe\CamundaClient\CamundaClient;
 use StrehleDe\CamundaClient\CamundaTopic;
 use StrehleDe\CamundaClient\CamundaTopicBag;
@@ -33,10 +34,12 @@ class CamundaReceiver implements ReceiverInterface
      * CamundaReceiver constructor.
      * @param CamundaClient $camundaClient
      * @param CamundaTopicList $topicList
+     * @param LoggerInterface $logger
      */
     public function __construct(
         protected CamundaClient $camundaClient,
-        protected CamundaTopicList $topicList
+        protected CamundaTopicList $topicList,
+        protected LoggerInterface $logger
     )
     {
         $this->workerId = uniqid('worker');
@@ -131,7 +134,13 @@ class CamundaReceiver implements ReceiverInterface
             ->setWorkerId($this->workerId)
             ->setVariables($message->getCamundaVariables(true));
 
-        (new CamundaExternalTaskService($this->camundaClient))->complete($request);
+        try {
+            (new CamundaExternalTaskService($this->camundaClient))->complete($request);
+        } catch (\RuntimeException $e) {
+            // TODO Check for specific Camunda exceptions - for now, we simply assume that any error is safe to ignore
+            // to cope with optimistic locking errors, see https://spiegelgruppe.atlassian.net/browse/PHOTO-1101
+            $this->logger->warning(sprintf('%s: Ignoring error %s "%s"', __METHOD__, get_class($e), $e->getMessage()));
+        }
     }
 
 
