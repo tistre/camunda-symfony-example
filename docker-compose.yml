@@ -18,7 +18,7 @@ services:
             POSTGRES_PASSWORD: secret
             POSTGRES_DB: camunda
     camunda:
-        image: camunda/camunda-bpm-platform:7.17.0
+        image: camunda/camunda-bpm-platform:7.18.0
         depends_on:
             - db
         hostname: camunda
