@@ -75,7 +75,7 @@ Now you should be able to access the Camunda UI on http://localhost:8080/camunda
 And you can start the worker processes:
 
 ```
-$ docker compose start worker
+$ docker compose up -d worker
 ```
 
 ## Using

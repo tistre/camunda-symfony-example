@@ -9,10 +9,16 @@ use StrehleDe\CamundaClient\Variable\CamundaVariableBag;
 
 class CamundaProcessMessage
 {
+    // Override this in the base message for your process
     public const PROCESS_DEFINITION_KEY = '';
 
-    protected string $businessKey;
-    protected string $topic;
+    // Override this in the message that handles a topic
+    public const TOPIC_NAME = '';
+
+    // Optionally override this in the message that handles a topic
+    public const LOCK_DURATION = 60000; // 60 seconds
+
+    protected ?string $businessKey = null;
 
     protected string $errorMessage = '';
     protected string $errorDetails = '';
@@ -51,11 +57,20 @@ class CamundaProcessMessage
 
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getTopic(): ?string
+    public function getTopicName(): string
     {
-        return $this->topic;
+        return static::TOPIC_NAME;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getLockDuration(): int
+    {
+        return static::LOCK_DURATION;
     }
 
 

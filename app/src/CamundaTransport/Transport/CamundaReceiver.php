@@ -71,14 +71,7 @@ class CamundaReceiver implements ReceiverInterface
      */
     public function get(): iterable
     {
-        $topics = new CamundaTopicBag();
-
-        foreach ($this->topicList->getTopics() as $topic) {
-            $topics[] = (new CamundaTopic())
-                ->setTopicName($topic)
-                // TODO: Get lock duration from CamundaTopicList
-                ->setLockDuration(1000);
-        }
+        $topics = $this->topicList->getTopics();
 
         $request = (new CamundaExternalTaskFetchAndLockRequest($this->camundaClient))
             ->setWorkerId($this->workerId)

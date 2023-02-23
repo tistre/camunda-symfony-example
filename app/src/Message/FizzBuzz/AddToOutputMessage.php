@@ -7,5 +7,5 @@ use App\CamundaTransport\Message\CamundaExternalTaskMessage;
 
 class AddToOutputMessage extends FizzBuzzMessage implements CamundaExternalTaskMessage
 {
-    protected string $topic = 'FizzBuzz_AddToOutput';
+    public const TOPIC_NAME = 'FizzBuzz_AddToOutput';
 }

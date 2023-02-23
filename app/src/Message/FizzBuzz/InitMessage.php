@@ -7,5 +7,5 @@ use App\CamundaTransport\Message\CamundaExternalTaskMessage;
 
 class InitMessage extends FizzBuzzMessage implements CamundaExternalTaskMessage
 {
-    protected string $topic = 'FizzBuzz_Init';
+    public const TOPIC_NAME = 'FizzBuzz_Init';
 }

@@ -7,5 +7,5 @@ use App\CamundaTransport\Message\CamundaExternalTaskMessage;
 
 class GetDivisorsMessage extends FizzBuzzMessage implements CamundaExternalTaskMessage
 {
-    protected string $topic = 'FizzBuzz_GetDivisors';
+    public const TOPIC_NAME = 'FizzBuzz_GetDivisors';
 }
